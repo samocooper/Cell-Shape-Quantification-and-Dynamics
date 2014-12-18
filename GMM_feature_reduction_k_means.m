@@ -36,6 +36,8 @@ end
 
 %%
 % ------- Determine cluster number with k means -------
+
+% suppress warnings for this part
 cluster_qual = zeros(1,11);
 x_val_num = 50;
 for i = 1:11
@@ -46,7 +48,7 @@ for i = 1:11
             x = 10*x_val-k-j;
             clustered_data_copy(x,:) = [];
         end 
-        [k_clusters,c] = kmeans(clustered_data_copy,i,'emptyaction','singleton','dist','Hamming','Replicates',50,'options',options);
+        [k_clusters,c] = kmeans(clustered_data_copy,i,'emptyaction','singleton','dist','Hamming','Replicates',100,'options',options);
         [sil,h1] = silhouette(clustered_data_copy,k_clusters,'Hamming');
         cluster_qual(i) = cluster_qual(i) + mean(sil);
     end
@@ -54,7 +56,7 @@ end
 cluster_qual = cluster_qual/10;
 
 %%
-% ensure value drop off at high cluster number i.e. 10
+% ensure values drop off at high cluster number i.e. 10
 temp = cluster_qual;
 while temp(10)-min(temp) > 0
     diff = (temp(10)-min(temp))/10;
