@@ -36,9 +36,9 @@ end
 
 %%
 % ------- Determine cluster number with k means -------
-cluster_qual = zeros(1,10);
+cluster_qual = zeros(1,11);
 x_val_num = 50;
-for i = 1:10
+for i = 1:11
     i
     for j = 1:x_val_num
     clustered_data_copy = clustered_data;
