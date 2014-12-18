@@ -48,10 +48,19 @@ for i = 1:10
         end 
         [k_clusters,c] = kmeans(clustered_data_copy,i,'emptyaction','singleton','dist','Hamming','Replicates',50,'options',options);
         [sil,h1] = silhouette(clustered_data_copy,k_clusters,'Hamming');
-        cluster_qual(i) = cluster_qual(i) + mean(sil)-i/40; %linear factor added so that values drop off for high (i.e. 10+) cluster numbers
+        cluster_qual(i) = cluster_qual(i) + mean(sil);
     end
 end
-plot(cluster_qual/10)
+cluster_qual = cluster_qual/10;
+
+%%
+% ensure value drop off at high cluster number i.e. 10
+temp = cluster_qual;
+while temp(10)-min(temp) > 0
+    diff = (temp(10)-min(temp))/10;
+    temp = temp - (1:11)*(diff+0.001*temp(10));      
+end
+plot(temp)
 
 %%
 clusters = 5;
